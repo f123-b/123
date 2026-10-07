@@ -2451,8 +2451,12 @@ function bindImageViewer() {
 
 function renderRoute() {
   const route = routeFromHash();
-  if (route === "ai-canvas" && window.location.protocol !== "file:") {
-    window.location.assign("/product/ai-canvas/");
+  if (route === "ai-canvas") {
+    if (window.location.protocol === "file:") {
+      apiBaseReady.then((base) => window.location.assign(`${base}/product/ai-canvas/`));
+    } else {
+      window.location.assign("/product/ai-canvas/");
+    }
     return;
   }
   const page = $("#route-page");
