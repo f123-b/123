@@ -1,6 +1,6 @@
 {
   "name": "comfyui-local-studio",
-    "version": "0.1.7",
+    "version": "0.1.8",
   "private": true,
   "description": "ComfyUI local desktop application",
   "main": "main.js",

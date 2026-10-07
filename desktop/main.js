@@ -156,14 +156,27 @@ function appendPythonPath(environment) {
 function packagedDirectories() {
   if (!isPackaged) return [];
   const root = path.join(app.getPath("userData"), "workspace");
+  const modelCandidates = [
+    process.env.COMFY_DESKTOP_MODELS_DIRECTORY,
+    process.env.PORTABLE_EXECUTABLE_DIR && path.join(process.env.PORTABLE_EXECUTABLE_DIR, "models"),
+    process.env.PORTABLE_EXECUTABLE_DIR && path.resolve(process.env.PORTABLE_EXECUTABLE_DIR, "..", "..", "models"),
+    path.join(path.dirname(process.execPath), "models"),
+    path.resolve(path.dirname(process.execPath), "..", "..", "models"),
+    path.join(process.cwd(), "models")
+  ].filter(Boolean);
+  const models = modelCandidates
+    .map(candidate => path.resolve(candidate))
+    .find(candidate => fs.existsSync(path.join(candidate, "diffusion_models")) || fs.existsSync(path.join(candidate, "checkpoints")))
+    || path.join(root, "models");
   const directories = {
-    models: path.join(root, "models"),
+    models,
     input: path.join(root, "input"),
     output: path.join(root, "output"),
     temp: path.join(root, "temp"),
     user: path.join(root, "user")
   };
   for (const directory of Object.values(directories)) fs.mkdirSync(directory, { recursive: true });
+  trace(`models directory=${directories.models}`);
   return [
     "--models-directory", directories.models,
     "--input-directory", directories.input,
