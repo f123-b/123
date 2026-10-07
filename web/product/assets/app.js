@@ -2451,7 +2451,7 @@ function bindImageViewer() {
 
 function renderRoute() {
   const route = routeFromHash();
-  if (route === "ai-canvas") {
+  if (route === "ai-canvas" && window.location.protocol !== "file:") {
     window.location.assign("/product/ai-canvas/");
     return;
   }
