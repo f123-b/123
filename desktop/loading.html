@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComfyUI 本地创作工作台</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #0b1220; color: #f8fafc; }
+    .card { width: min(720px, calc(100vw - 48px)); padding: 42px; border: 1px solid #263852; border-radius: 24px; background: linear-gradient(145deg, #121e32, #0f172a); box-shadow: 0 24px 80px #0008; }
+    .eyebrow { color: #67c5ff; letter-spacing: .16em; font-size: 12px; font-weight: 700; }
+    h1 { margin: 12px 0 10px; font-size: 30px; }
+    #message { color: #d8e4f2; font-size: 16px; white-space: pre-wrap; line-height: 1.65; }
+    #detail { margin-top: 14px; color: #91a6bf; white-space: pre-wrap; line-height: 1.6; font-size: 13px; }
+    .spinner { width: 28px; height: 28px; margin-top: 26px; border: 3px solid #2e4966; border-top-color: #67c5ff; border-radius: 50%; animation: spin .8s linear infinite; }
+    .error { color: #ffb4a8 !important; }
+    .actions { display: none; gap: 10px; margin-top: 26px; }
+    button { border: 0; border-radius: 10px; padding: 11px 18px; color: #07121c; background: #67c5ff; font-size: 14px; font-weight: 700; cursor: pointer; }
+    button.secondary { color: #d8e4f2; background: #263852; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">COMFYUI / LOCAL AI STUDIO</div>
+    <h1 id="title">正在启动 ComfyUI</h1>
+    <div id="message">正在准备本地推理环境…</div>
+    <div id="detail">数据只保存在本机。首次启动可能需要较长时间。</div>
+    <div class="spinner" id="spinner"></div>
+    <div class="actions" id="actions">
+      <button onclick="window.desktop.retry()">重新启动</button>
+      <button class="secondary" onclick="window.desktop.openLog()">打开启动日志</button>
+      <button class="secondary" onclick="window.desktop.quit()">退出</button>
+    </div>
+  </main>
+  <script>
+    function render(status) {
+      document.getElementById("title").textContent = status.title || "ComfyUI 本地创作工作台";
+      document.getElementById("message").textContent = status.message || "";
+      document.getElementById("detail").textContent = status.detail || "";
+      const failed = status.state === "error";
+      document.getElementById("message").classList.toggle("error", failed);
+      document.getElementById("spinner").style.display = failed ? "none" : "block";
+      document.getElementById("actions").style.display = failed ? "flex" : "none";
+    }
+    window.desktop.onStatus(render);
+  </script>
+</body>
+</html>

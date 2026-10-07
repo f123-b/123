@@ -1,0 +1,97 @@
+{
+  "name": "comfyui-local-studio",
+  "version": "0.1.2",
+  "private": true,
+  "description": "ComfyUI local desktop application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "prepackage": "node prepare_frontend.js",
+    "package": "electron-builder --dir",
+    "predist": "node prepare_frontend.js",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "comfyui.localstudio",
+    "productName": "ComfyUI 本地创作工作台",
+    "artifactName": "ComfyUI-Local-Studio-${version}-${arch}.${ext}",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "loading.html",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "frontend",
+        "to": "comfyui/frontend",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "..",
+        "to": "comfyui",
+        "filter": [
+          "app/**",
+          "api_server/**",
+          "blueprints/**",
+          "comfy/**",
+          "comfy_api/**",
+          "comfy_api_nodes/**",
+          "comfy_config/**",
+          "comfy_execution/**",
+          "comfy_extras/**",
+          "comfyui_version.py",
+          "desktop_runtime/**",
+          "alembic_db/**",
+          "custom_nodes/**",
+          "middleware/**",
+          "utils/**",
+          "folder_paths.py",
+          "cuda_malloc.py",
+          "execution.py",
+          "hook_breaker_ac10a0.py",
+          "latent_preview.py",
+          "main.py",
+          "node_helpers.py",
+          "nodes.py",
+          "openapi.yaml",
+          "protocol.py",
+          "server.py",
+          "web/product/**"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "ComfyUI 本地创作工作台",
+      "artifactName": "ComfyUI-Local-Studio-${version}-${arch}-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "ComfyUI-Local-Studio-${version}-${arch}-Portable.${ext}"
+    }
+  }
+}

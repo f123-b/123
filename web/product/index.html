@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>ComfyUI Studio · 本地创作</title>
+  <link rel="stylesheet" href="/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/style.css?v=20261007-canvas-2">
+</head>
+<body>
+  <div class="studio-app">
+    <header class="studio-topbar">
+      <div class="window-controls" aria-hidden="true"><span></span><span></span><span></span></div>
+      <a class="studio-brand" href="#page/home" data-route="home">
+        <span class="studio-brand-mark mdi mdi-creation"></span>
+        <span class="studio-brand-name">ComfyUI Studio</span>
+        <span class="studio-beta">Beta</span>
+      </a>
+      <div class="studio-topbar-actions">
+        <label class="studio-search" for="studio-search-input"><span class="mdi mdi-magnify"></span><input id="studio-search-input" type="search" placeholder="搜索模型、LoRA、提示词…"></label>
+        <button class="studio-top-icon" type="button" title="搜索" aria-label="搜索"><span class="mdi mdi-magnify"></span></button>
+        <button class="studio-top-icon" type="button" title="通知" aria-label="通知"><span class="mdi mdi-bell-outline"></span></button>
+        <button class="studio-avatar" type="button" title="本地用户" aria-label="本地用户"><span class="mdi mdi-account"></span></button>
+        <button class="studio-workspace-switcher" type="button"><span>本地空间</span><span class="mdi mdi-chevron-down"></span></button>
+        <button class="studio-top-icon" type="button" title="设置" aria-label="设置"><span class="mdi mdi-cog-outline"></span></button>
+      </div>
+    </header>
+
+    <div class="studio-body">
+      <aside class="studio-sidebar" aria-label="Studio 导航">
+        <nav class="studio-nav">
+          <a class="studio-nav-item active" href="#page/home" data-route="home"><span class="mdi mdi-home-variant"></span><span>首页</span></a>
+          <span class="studio-nav-group-label">AI 创作</span>
+          <a class="studio-nav-item" href="#page/text-to-image" data-route="text-to-image"><span class="mdi mdi-image-outline"></span><span>文生图</span></a>
+          <a class="studio-nav-item" href="#page/image-to-image" data-route="image-to-image"><span class="mdi mdi-image-multiple-outline"></span><span>图生图</span></a>
+          <a class="studio-nav-item" href="#page/image-editor" data-route="image-editor"><span class="mdi mdi-image-edit-outline"></span><span>图片编辑</span></a>
+          <a class="studio-nav-item" href="#page/prompt-studio" data-route="prompt-studio"><span class="mdi mdi-text-box-edit-outline"></span><span>Prompt Studio</span></a>
+          <a class="studio-nav-item" href="#page/character-studio" data-route="character-studio"><span class="mdi mdi-account-star-outline"></span><span>角色工作室</span></a>
+          <a class="studio-nav-item" href="/product/ai-canvas/" data-route="ai-canvas"><span class="mdi mdi-graph-outline"></span><span>AI 画布</span></a>
+          <a class="studio-nav-item" href="#page/text-to-video" data-route="text-to-video"><span class="mdi mdi-video-outline"></span><span>文生视频</span></a>
+          <span class="studio-nav-group-label">AI 素材</span>
+          <a class="studio-nav-item" href="#page/assets" data-route="assets"><span class="mdi mdi-image-multiple-outline"></span><span>图片管理</span></a>
+          <a class="studio-nav-item" href="#page/text-to-video"><span class="mdi mdi-video-plus-outline"></span><span>视频生成</span></a>
+          <span class="studio-nav-group-label">模型与资源</span>
+          <a class="studio-nav-item" href="#page/models" data-route="models"><span class="mdi mdi-cube-scan"></span><span>模型库</span></a>
+          <a class="studio-nav-item" href="#page/workflows"><span class="mdi mdi-layers-outline"></span><span>LoRA</span></a>
+          <a class="studio-nav-item" href="#page/workflows" data-route="workflows"><span class="mdi mdi-vector-polyline"></span><span>工作流</span></a>
+          <span class="studio-nav-group-label">设置</span>
+          <a class="studio-nav-item studio-nav-button" href="#page/settings" data-route="settings"><span class="mdi mdi-tune-variant"></span><span>偏好设置</span></a>
+          <a class="studio-nav-item" href="#page/history" data-route="history"><span class="mdi mdi-history"></span><span>历史记录</span><em id="nav-job-count">0</em></a>
+        </nav>
+        <div class="local-space-card">
+          <div class="local-space-heading"><span>本地空间</span><span id="runtime-badge" class="status-badge">检测中</span><button class="local-space-settings" type="button" aria-label="本地空间设置"><span class="mdi mdi-cog-outline"></span></button></div>
+          <div class="storage-meter"><span></span></div>
+          <div class="storage-meta"><span>128 GB / 500 GB</span><span class="mdi mdi-cloud-off-outline"></span></div>
+        </div>
+      </aside>
+
+      <main class="studio-main">
+        <div id="route-page" class="route-page is-hidden" aria-live="polite"></div>
+        <div class="studio-main-grid">
+          <div class="studio-feed">
+            <section id="create" class="studio-hero">
+              <img src="assets/gallery/hero-wisteria.png" alt="蓝色花海中的东方人物创作灵感">
+              <div class="studio-hero-overlay"></div>
+              <div class="studio-hero-copy">
+                <p class="studio-kicker">COMFYUI LOCAL CREATIVE STUDIO</p>
+                <h1>让创意<br>更简单更强大</h1>
+                <p>基于 ComfyUI 的本地 AI 创作平台<br>支持图片、视频与可视化工作流</p>
+                <button id="hero-start" class="studio-hero-button" type="button">开始创作 <span class="mdi mdi-arrow-right"></span></button>
+              </div>
+              <div class="studio-hero-controls"><button type="button" aria-label="上一张"><span class="mdi mdi-chevron-left"></span></button><button type="button" aria-label="下一张"><span class="mdi mdi-chevron-right"></span></button></div>
+              <div class="studio-hero-dots"><span class="active"></span><span></span><span></span></div>
+            </section>
+
+            <section id="generate" class="creation-shortcuts" aria-label="快速开始">
+              <button class="studio-tool-card active" type="button" data-prompt-mode="image" data-prompt="生成一张电影感的人物海报，低饱和，侧光，高细节"><span class="tool-card-icon blue mdi mdi-image-outline"></span><span><strong>文生图</strong><small>用文字生成精美图片</small></span><span class="mdi mdi-arrow-right"></span></button>
+              <button class="studio-tool-card" type="button" data-prompt-mode="image" data-prompt="基于参考图生成一张风格一致的产品视觉，干净背景，高级质感"><span class="tool-card-icon teal mdi mdi-image-multiple-outline"></span><span><strong>图生图</strong><small>基于图片进行二次创作</small></span><span class="mdi mdi-arrow-right"></span></button>
+              <button class="studio-tool-card" type="button" data-prompt-mode="video" data-prompt="生成一个 5 秒电影感人物短视频，镜头缓慢推进，保持主体稳定"><span class="tool-card-icon purple mdi mdi-video-outline"></span><span><strong>文生视频</strong><small>用文字生成高质量视频</small></span><span class="mdi mdi-arrow-right"></span></button>
+              <button class="studio-tool-card" type="button" data-prompt-mode="video" data-prompt="将参考视频做高清放大并稳定画面，保留原始色彩和细节"><span class="tool-card-icon cyan mdi mdi-video-plus-outline"></span><span><strong>视频处理</strong><small>视频转场/调帧/放大等</small></span><span class="mdi mdi-arrow-right"></span></button>
+            </section>
+
+            <section id="gallery-section" class="studio-gallery-section">
+              <div class="studio-section-header"><div><h2>灵感 gallery</h2><p>从本地生成记录中继续创作</p></div><button id="refresh-gallery" class="studio-refresh-button" type="button" title="刷新 Gallery"><span class="mdi mdi-refresh"></span></button></div>
+              <div class="gallery-toolbar"><div class="gallery-filters" role="tablist" aria-label="素材分类"><button class="gallery-filter active" type="button" data-gallery-filter="all">全部</button><button class="gallery-filter" type="button" data-gallery-filter="image">图片</button><button class="gallery-filter" type="button" data-gallery-filter="video">视频</button><button class="gallery-filter" type="button" data-gallery-filter="anime">动漫</button><button class="gallery-filter" type="button" data-gallery-filter="photo">写实</button><button class="gallery-filter" type="button" data-gallery-filter="architecture">建筑</button><button class="gallery-filter" type="button" data-gallery-filter="product">产品</button><button class="gallery-filter" type="button" data-gallery-filter="game">游戏</button><button class="gallery-filter" type="button" data-gallery-filter="more">更多 <span class="mdi mdi-chevron-down"></span></button></div><button class="gallery-batch-button" type="button">换一批 <span class="mdi mdi-refresh"></span></button></div>
+              <div id="gallery" class="gallery-grid">
+                <article class="studio-media-card" data-gallery-kind="image architecture"><div class="media-image"><img src="assets/gallery/floating-castle.png" alt="漂浮在云海上的城堡"><button class="media-play" type="button" aria-label="预览图片"><span class="mdi mdi-play"></span></button><span class="media-duration">00:05</span></div><div class="media-meta"><span>漂浮城堡 · 梦境建筑</span><button class="media-more" type="button" aria-label="更多操作"><span class="mdi mdi-dots-horizontal"></span></button></div></article>
+                <article class="studio-media-card" data-gallery-kind="video image"><div class="media-image"><img src="assets/gallery/neon-portrait.png" alt="霓虹城市中的人物肖像"><button class="media-play" type="button" aria-label="预览视频"><span class="mdi mdi-play"></span></button><span class="media-duration">00:08</span></div><div class="media-meta"><span>霓虹城市 · 电影人像</span><button class="media-more" type="button" aria-label="更多操作"><span class="mdi mdi-dots-horizontal"></span></button></div></article>
+                <article class="studio-media-card" data-gallery-kind="image photo"><div class="media-image"><img src="assets/gallery/golden-cat.png" alt="花园里的金色猫咪"><button class="media-play" type="button" aria-label="预览图片"><span class="mdi mdi-play"></span></button><span class="media-duration">00:04</span></div><div class="media-meta"><span>午后花园 · 金色猫咪</span><button class="media-more" type="button" aria-label="更多操作"><span class="mdi mdi-dots-horizontal"></span></button></div></article>
+                <article class="studio-media-card" data-gallery-kind="image anime"><div class="media-image"><img src="assets/gallery/ice-princess.png" alt="冰雪蓝色幻想人物"><button class="media-play" type="button" aria-label="预览图片"><span class="mdi mdi-play"></span></button><span class="media-duration">00:06</span></div><div class="media-meta"><span>冰晶幻想 · 蓝色公主</span><button class="media-more" type="button" aria-label="更多操作"><span class="mdi mdi-dots-horizontal"></span></button></div></article>
+                <article class="studio-media-card" data-gallery-kind="image architecture photo"><div class="media-image"><img src="assets/gallery/sunlit-interior.png" alt="阳光充沛的现代客厅"><button class="media-play" type="button" aria-label="预览图片"><span class="mdi mdi-play"></span></button><span class="media-duration">00:05</span></div><div class="media-meta"><span>阳光客厅 · 现代生活</span><button class="media-more" type="button" aria-label="更多操作"><span class="mdi mdi-dots-horizontal"></span></button></div></article>
+                <article class="studio-media-card" data-gallery-kind="video image photo"><div class="media-image"><img src="assets/gallery/winter-profile.png" alt="雪夜中的人物侧脸"><button class="media-play" type="button" aria-label="预览视频"><span class="mdi mdi-play"></span></button><span class="media-duration">00:06</span></div><div class="media-meta"><span>雪夜侧影 · 静谧时刻</span><button class="media-more" type="button" aria-label="更多操作"><span class="mdi mdi-dots-horizontal"></span></button></div></article>
+              </div>
+            </section>
+
+            <section id="recipes-section" class="studio-lower-section">
+              <div class="studio-lower-card"><div class="studio-section-header compact"><div><p class="studio-kicker">LOCAL LIBRARY</p><h2>Recipe 与工作流</h2></div><span id="recipe-count" class="studio-count">0</span></div><div class="studio-recipe-columns"><div><h3>候选 Recipe</h3><div id="recipes" class="list empty-state">输入任务后生成本地推荐。</div></div><div><h3>内置模板</h3><div id="templates" class="list empty-state">正在读取模板…</div></div></div></div>
+            </section>
+          </div>
+
+          <aside id="diagnostics-section" class="creator-panel">
+            <div class="creator-tabs" role="tablist" aria-label="创作面板"><button class="creator-tab active" type="button" data-panel-tab="generate">生成</button><button class="creator-tab" type="button" data-panel-tab="workflow">工作流</button></div>
+            <div id="generate-panel" class="creator-panel-body">
+              <div class="creator-field"><label for="base-model">基础模型</label><div class="model-select-wrap"><span class="model-thumb mdi mdi-image-filter-hdr"></span><select id="base-model"><option>SDXL 1.0</option><option>Flux 本地模型</option><option>自动选择</option></select><span class="mdi mdi-chevron-down"></span></div></div>
+              <div class="creator-field prompt-field"><div class="field-label-row"><label for="task">提示词</label><span id="prompt-count">0/1000</span></div><textarea id="task" maxlength="1000" rows="5" placeholder="请输入你想生成的内容…\n例如：一个在雪山上的女孩，电影质感，柔和光照，高清细节"></textarea><div class="prompt-tools"><button type="button" class="prompt-tool" data-prompt="电影感，细节丰富，柔和光照"><span class="mdi mdi-plus-circle-outline"></span>正向提示词</button><button type="button" class="prompt-tool" data-prompt="低质量，模糊，变形"><span class="mdi mdi-minus-circle-outline"></span>负向提示词</button></div></div>
+              <div class="creator-divider"></div>
+              <div class="creator-settings"><h3>生成设置</h3><div class="setting-row"><label>图像尺寸</label><div class="aspect-grid"><button type="button" class="aspect-button active" data-aspect="1:1"><span class="aspect-glyph square"></span><span>1:1</span></button><button type="button" class="aspect-button" data-aspect="4:3"><span class="aspect-glyph landscape"></span><span>4:3</span></button><button type="button" class="aspect-button" data-aspect="3:4"><span class="aspect-glyph portrait"></span><span>3:4</span></button><button type="button" class="aspect-button" data-aspect="16:9"><span class="aspect-glyph wide"></span><span>16:9</span></button><button type="button" class="aspect-button" data-aspect="9:16"><span class="aspect-glyph tall"></span><span>9:16</span></button></div></div><div class="setting-row slider-row"><div class="slider-label"><label for="steps">采样步数</label><output id="steps-value">30</output></div><input id="steps" type="range" min="1" max="60" value="30"></div><div class="setting-row slider-row"><div class="slider-label"><label for="cfg">提示词引导 (CFG)</label><output id="cfg-value">7.0</output></div><input id="cfg" type="range" min="1" max="15" step="0.5" value="7"></div><div class="setting-row seed-row"><label for="seed">随机种子</label><div><input id="seed" value="-1"><button type="button" title="随机种子"><span class="mdi mdi-dice-5-outline"></span></button></div></div></div>
+              <div id="recommendation" class="recommendation compact-recommendation"><span id="intent" class="studio-intent">未规划</span><span>输入提示词后，点击智能规划获取本地方案。</span></div>
+              <div id="recipe-inputs" class="recipe-inputs panel-plan-note"><span class="mdi mdi-tune-variant"></span><span>Recipe 参数会显示在这里。</span></div>
+              <div class="creator-footer"><div id="plan-status" class="status-row"><span class="status-pulse"></span><span>本地服务已就绪</span><span id="queue-project-label" class="queue-project-label">未选择项目</span></div><a id="runtime-open-link" class="runtime-open-link is-hidden" href="http://127.0.0.1:8188/product/">用服务地址打开</a><button id="plan-button" class="studio-plan-button" type="button"><span class="mdi mdi-auto-fix"></span>智能规划</button><button id="queue-button" class="studio-generate-button" type="button" disabled>立即生成 <span class="mdi mdi-play"></span></button></div>
+            </div>
+            <div id="workflow-panel" class="creator-panel-body is-hidden"><p class="workflow-panel-copy">粘贴 API Prompt 或 UI Workflow JSON，检查缺失模型、节点和可修复项。</p><textarea id="workflow" rows="9" placeholder="在此粘贴 Workflow JSON…"></textarea><button id="diagnose-button" class="studio-outline-button" type="button"><span class="mdi mdi-shield-search"></span>检查工作流</button><pre id="diagnosis" class="code-output">尚未检查。</pre><div id="repair-actions" class="repair-actions"></div></div>
+          </aside>
+        </div>
+
+        <section id="jobs-section" class="studio-secondary-section"><div class="studio-secondary-card"><div class="studio-section-header compact"><div><p class="studio-kicker">QUEUE</p><h2>任务中心</h2></div><button id="refresh-jobs" class="studio-outline-button small" type="button"><span class="mdi mdi-refresh"></span>刷新</button></div><div id="jobs" class="list empty-state">正在读取任务…</div></div></section>
+        <section id="assets-section" class="studio-secondary-section"><div class="studio-secondary-grid"><div class="studio-secondary-card"><div class="studio-section-header compact"><div><p class="studio-kicker">PROJECTS</p><h2>项目归档</h2></div><span id="project-count" class="studio-count">0</span></div><div class="inline-form"><input id="project-name" placeholder="输入新项目名称"><button id="create-project" class="studio-outline-button" type="button"><span class="mdi mdi-plus"></span>创建项目</button></div><div id="projects" class="list empty-state">暂无项目。</div></div><div class="studio-secondary-card"><div class="studio-section-header compact"><div><p class="studio-kicker">QUICK CANVAS</p><h2>快速画布</h2></div><span class="studio-count subtle">LOCAL</span></div><div class="canvas-tools"><label class="file-button studio-outline-button" for="canvas-file"><span class="mdi mdi-upload-outline"></span>导入图片</label><input id="canvas-file" type="file" accept="image/*"><button id="clear-canvas" class="studio-outline-button" type="button">清空</button><button id="export-canvas" class="studio-outline-button" type="button">导出</button></div><canvas id="canvas" width="640" height="360"></canvas></div></div></section>
+        <section id="system-section" class="studio-secondary-section"><div class="studio-secondary-grid"><div class="studio-secondary-card"><div class="studio-section-header compact"><div><p class="studio-kicker">MODEL CATALOG</p><h2>模型目录</h2></div><button id="refresh-models" class="studio-outline-button small" type="button"><span class="mdi mdi-refresh"></span></button></div><div id="models" class="list empty-state">正在读取模型目录…</div></div><div class="studio-secondary-card"><div class="studio-section-header compact"><div><p class="studio-kicker">RUNTIME</p><h2>本地环境</h2></div><button id="refresh-environment" class="studio-outline-button small" type="button"><span class="mdi mdi-refresh"></span></button></div><div id="environment" class="environment empty-state">正在读取环境诊断…</div></div></div></section>
+      </main>
+    </div>
+    <footer class="studio-footer"><span class="mdi mdi-lock-outline"></span>本地模式：不会上传 Prompt、素材或使用外部服务。<a id="professional-link" href="/?mode=editor">打开专业模式</a></footer>
+  </div>
+  <script src="assets/app.js?v=20261007-canvas-2"></script>
+</body>
+</html>

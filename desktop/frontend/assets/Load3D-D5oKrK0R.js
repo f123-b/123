@@ -1,0 +1,1 @@
+import{t as e}from"./Load3D-BYXLlFtL.js";export{e as default};
